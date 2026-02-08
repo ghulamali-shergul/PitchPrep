@@ -1,65 +1,144 @@
-import Image from "next/image";
+import Link from "next/link";
+import Container from "@/components/ui/Container";
+
+const features = [
+  {
+    icon: "🔍",
+    title: "Company Research + Pitch Generator",
+    description:
+      "Enter a company name and get a personalized 30-sec pitch, key talking points with sources, top roles, smart questions, and a follow-up message.",
+  },
+  {
+    icon: "📊",
+    title: "Prioritize Companies",
+    description:
+      "Add multiple companies and get a ranked list with match scores, reasoning, and a recommended visit order. Filter by industry, location, and more.",
+  },
+  {
+    icon: "🏷️",
+    title: "Categorize & Organize",
+    description:
+      "Companies are automatically grouped by industry — Tech, Finance, Healthcare, Consulting — with badges showing match score and top roles.",
+  },
+  {
+    icon: "📝",
+    title: "Resume Suggestions",
+    description:
+      "Paste your resume and a job description to get AI-powered improvement suggestions with before/after bullet rewrites.",
+  },
+];
+
+const steps = [
+  { number: "01", title: "Set Your Goals", description: "Tell us your preferred roles, industries, and background." },
+  { number: "02", title: "Add Companies", description: "Enter companies you want to visit at the career fair." },
+  { number: "03", title: "Get Prioritized", description: "See a ranked list with match scores and recommendations." },
+  { number: "04", title: "Generate Cards", description: "Get personalized pitches and talking points for each company." },
+  { number: "05", title: "Polish Your Resume", description: "Get targeted suggestions to strengthen your resume." },
+];
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="flex flex-col">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary-light via-white to-blue-50 py-20 sm:py-28">
+        <Container>
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
+              🎯 Career Fair Prep Made Simple
+            </div>
+            <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+              Walk into every booth{" "}
+              <span className="text-primary">with confidence</span>
+            </h1>
+            <p className="mt-6 text-lg text-muted sm:text-xl max-w-2xl mx-auto leading-relaxed">
+              Research companies, craft personalized pitches, prioritize your visits, and polish your resume — all in one powerful workspace.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/app"
+                className="inline-flex h-12 items-center justify-center rounded-xl bg-primary px-8 text-base font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/30"
+              >
+                Start Prepping →
+              </Link>
+              <Link
+                href="#features"
+                className="inline-flex h-12 items-center justify-center rounded-xl border border-border px-8 text-base font-medium text-foreground transition-colors hover:bg-secondary"
+              >
+                See Features
+              </Link>
+            </div>
+          </div>
+        </Container>
+
+        {/* Decorative elements */}
+        <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-accent/5 blur-3xl" />
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20 bg-white">
+        <Container>
+          <div className="text-center mb-14">
+            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">How It Works</h2>
+            <p className="mt-3 text-lg text-muted">Five simple steps to career fair success</p>
+          </div>
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+            {steps.map((step) => (
+              <div key={step.number} className="text-center">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-xl font-bold text-white shadow-lg shadow-primary/20">
+                  {step.number}
+                </div>
+                <h3 className="text-base font-semibold text-foreground">{step.title}</h3>
+                <p className="mt-1.5 text-sm text-muted">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Features */}
+      <section id="features" className="py-20 bg-gray-50">
+        <Container>
+          <div className="text-center mb-14">
+            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Everything You Need</h2>
+            <p className="mt-3 text-lg text-muted">Powerful tools to help you stand out</p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2">
+            {features.map((feature) => (
+              <div
+                key={feature.title}
+                className="rounded-2xl border border-border bg-white p-8 shadow-sm transition-all hover:shadow-md hover:border-primary/20"
+              >
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary-light text-2xl">
+                  {feature.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
+                <p className="mt-2 text-sm text-muted leading-relaxed">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 bg-primary">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold text-white sm:text-4xl">
+              Ready to ace your career fair?
+            </h2>
+            <p className="mt-4 text-lg text-white/80">
+              Join thousands of students who walk into career fairs prepared and confident.
+            </p>
+            <Link
+              href="/app"
+              className="mt-8 inline-flex h-12 items-center justify-center rounded-xl bg-white px-8 text-base font-semibold text-primary shadow-lg transition-all hover:bg-gray-50 hover:shadow-xl"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+              Get Started Free →
+            </Link>
+          </div>
+        </Container>
+      </section>
     </div>
   );
 }
