@@ -23,7 +23,7 @@ export default function CompanyFilters({ filters, onFilterChange }: CompanyFilte
       />
 
       <div>
-        <label className="mb-1 block text-xs font-medium text-muted">Industry</label>
+        <label className="mb-1 block text-xs font-medium text-muted">Top matches</label>
         <select
           value={filters.industry}
           onChange={(e) => onFilterChange({ ...filters, industry: e.target.value as Category | "All" })}
@@ -79,7 +79,7 @@ export default function CompanyFilters({ filters, onFilterChange }: CompanyFilte
           onChange={(e) => onFilterChange({ ...filters, hiringNow: e.target.checked ? true : null })}
           className="h-3.5 w-3.5 rounded border-border text-primary focus:ring-primary/20 accent-primary"
         />
-        Hiring Now only
+        Related to my interest
       </label>
     </div>
   );

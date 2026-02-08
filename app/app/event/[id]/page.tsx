@@ -7,7 +7,7 @@ import { useCompanyStore } from "@/lib/CompanyStoreContext";
 import Container from "@/components/ui/Container";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
-import Badge, { CategoryBadge } from "@/components/ui/Badge";
+import { CategoryBadge } from "@/components/ui/Badge";
 
 export default function UserEventDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id: eventId } = use(params);
@@ -88,15 +88,15 @@ export default function UserEventDetailPage({ params }: { params: Promise<{ id: 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
         <Card className="text-center">
           <p className="text-2xl font-bold text-primary">{companies.length}</p>
-          <p className="text-xs text-muted mt-1">Employers</p>
+          <p className="text-xs text-muted mt-1">All employers</p>
         </Card>
         <Card className="text-center">
           <p className="text-2xl font-bold text-emerald-600">{hiringCount}</p>
-          <p className="text-xs text-muted mt-1">Hiring Now</p>
+          <p className="text-xs text-muted mt-1">Related to my interest</p>
         </Card>
         <Card className="text-center">
           <p className="text-2xl font-bold text-amber-600">{Object.keys(categoryCounts).length}</p>
-          <p className="text-xs text-muted mt-1">Industries</p>
+          <p className="text-xs text-muted mt-1">Top matches</p>
         </Card>
       </div>
 
@@ -124,16 +124,18 @@ export default function UserEventDetailPage({ params }: { params: Promise<{ id: 
                 companies.map((company) => (
                   <tr
                     key={company.id}
-                    className="border-b border-border last:border-0 hover:bg-card-hover transition-colors"
+                    className="border-b border-border last:border-0 hover:bg-card-hover transition-colors cursor-pointer"
+                    onClick={() => router.push(`/company/${company.slug}`)}
                   >
                     <td className="px-4 py-3">
                       <div>
-                        <p className="font-medium text-foreground">{company.name}</p>
+                        <p className="font-medium text-foreground hover:text-primary transition-colors">{company.name}</p>
                         <a
                           href={company.url}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-xs text-primary hover:underline truncate block max-w-[200px]"
+                          onClick={(e) => e.stopPropagation()}
                         >
                           {company.url}
                         </a>
@@ -147,11 +149,11 @@ export default function UserEventDetailPage({ params }: { params: Promise<{ id: 
                       {company.hiringNow ? (
                         <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
                           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                          Hiring
+                          Related to my interest
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
-                          Not Hiring
+                          Not related
                         </span>
                       )}
                     </td>
@@ -175,34 +177,7 @@ export default function UserEventDetailPage({ params }: { params: Promise<{ id: 
         </div>
       </Card>
 
-      {/* About section for companies with descriptions */}
-      {companies.filter((c) => c.aboutInfo).length > 0 && (
-        <div className="mt-8">
-          <h2 className="text-lg font-semibold text-foreground mb-4">About the Employers</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {companies
-              .filter((c) => c.aboutInfo)
-              .map((company) => (
-                <Card key={company.id}>
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-foreground">{company.name}</h3>
-                    <CategoryBadge category={company.category} />
-                  </div>
-                  <p className="text-sm text-muted">{company.aboutInfo}</p>
-                  {company.hiringNow && (
-                    <div className="mt-3 flex flex-wrap gap-1">
-                      {company.topRoles.map((role) => (
-                        <Badge key={role} variant="default">
-                          {role}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-                </Card>
-              ))}
-          </div>
-        </div>
-      )}
+      {/* About section removed per request */}
     </Container>
   );
 }

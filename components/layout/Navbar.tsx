@@ -10,7 +10,7 @@ export default function Navbar() {
   const router = useRouter();
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
 
-  const publicLinks = [{ href: "/", label: "Home" }];
+  const publicLinks: { href: string; label: string }[] = [];
 
   const userLinks = [
     { href: "/app", label: "Dashboard" },

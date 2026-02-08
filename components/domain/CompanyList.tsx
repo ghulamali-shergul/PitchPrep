@@ -29,23 +29,26 @@ export default function CompanyList({ companies, selectedId, onSelect, filters, 
     <div className="flex h-full flex-col">
       <div className="border-b border-border p-3">
         <h3 className="text-sm font-semibold text-foreground mb-3">
-          Companies ({filtered.length})
+          All employers ({filtered.length})
         </h3>
         <CompanyFilters filters={filters} onFilterChange={onFilterChange} />
       </div>
 
-      <div className="flex-1 overflow-y-auto p-3 space-y-2">
+      <div className="flex-1 overflow-y-auto p-3">
         {filtered.length === 0 ? (
           <p className="text-xs text-muted text-center py-8">No companies match your filters.</p>
         ) : (
-          filtered.map((company) => (
-            <CompanyCardRow
-              key={company.id}
-              company={company}
-              isSelected={company.id === selectedId}
-              onClick={() => onSelect(company)}
-            />
-          ))
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {filtered.map((company) => (
+              <div key={company.id}>
+                <CompanyCardRow
+                  company={company}
+                  isSelected={company.id === selectedId}
+                  onClick={() => onSelect(company)}
+                />
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>

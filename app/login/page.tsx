@@ -122,20 +122,7 @@ export default function LoginPage() {
           </form>
         </Card>
 
-        {/* Demo credentials hint */}
-        <div className="mt-6 rounded-xl border border-border bg-secondary/50 p-4">
-          <p className="text-xs font-semibold text-foreground mb-2">Demo Credentials</p>
-          <div className="space-y-2 text-xs text-muted">
-            <div className="flex items-center justify-between">
-              <span className="font-medium">👤 Student:</span>
-              <code className="rounded bg-white px-2 py-0.5 text-foreground">user@gmail.com / 12345</code>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="font-medium">🛡️ Admin:</span>
-              <code className="rounded bg-white px-2 py-0.5 text-foreground">admin@pitchprep.com / admin123</code>
-            </div>
-          </div>
-        </div>
+        {/* Demo credentials hint removed per request */}
       </div>
     </Container>
   );

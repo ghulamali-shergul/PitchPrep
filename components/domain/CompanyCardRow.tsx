@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { Company, FilterState } from "@/lib/types";
 import { CategoryBadge, ScoreBadge } from "@/components/ui/Badge";
 
@@ -12,13 +13,17 @@ interface CompanyCardRowProps {
 
 export default function CompanyCardRow({ company, isSelected, onClick }: CompanyCardRowProps) {
   return (
-    <button
-      onClick={onClick}
-      className={`w-full text-left rounded-lg border p-3 transition-all ${
+    <Link 
+      href={`/company/${company.slug}`}
+      className={`block w-full text-left rounded-lg border p-3 transition-all ${
         isSelected
           ? "border-primary bg-primary-light shadow-sm"
-          : "border-border bg-white hover:border-primary/30 hover:bg-card-hover"
+          : "border-border bg-white hover:border-primary/30 hover:bg-card-hover hover:shadow-md"
       }`}
+      onClick={(e) => {
+        // Still call onClick for any state management (like selection tracking)
+        onClick();
+      }}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0 flex-1">
@@ -32,7 +37,7 @@ export default function CompanyCardRow({ company, isSelected, onClick }: Company
         {company.hiringNow && (
           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            Hiring
+            Related to my interest
           </span>
         )}
         {company.topRoles[0] && (
@@ -41,6 +46,6 @@ export default function CompanyCardRow({ company, isSelected, onClick }: Company
           </span>
         )}
       </div>
-    </button>
+    </Link>
   );
 }
