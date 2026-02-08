@@ -71,3 +71,13 @@ body {
 .slide-in {
   animation: slideIn 0.3s ease-out;
 }
+
+@keyframes popUp {
+  0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.step-pop-up {
+  opacity: 0;
+  animation: popUp 0.5s ease-out forwards;
+}

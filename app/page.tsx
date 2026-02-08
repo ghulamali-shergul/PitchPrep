@@ -20,12 +20,6 @@ const features = [
     description:
       "Companies are automatically grouped by industry — Tech, Finance, Healthcare, Consulting — with badges showing match score and top roles.",
   },
-  {
-    icon: "📝",
-    title: "Resume Suggestions",
-    description:
-      "Paste your resume and a job description to get AI-powered improvement suggestions with before/after bullet rewrites.",
-  },
 ];
 
 const steps = [
@@ -83,13 +77,16 @@ export default function Home() {
             <p className="mt-3 text-lg text-muted">Five simple steps to career fair success</p>
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-            {steps.map((step) => (
-              <div key={step.number} className="text-center">
+            {steps.map((step, index) => (
+              <div 
+                key={step.number} 
+                className="text-center step-pop-up"
+                style={{ animationDelay: `${index * 0.15}s` }}
+              >
                 <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-xl font-bold text-white shadow-lg shadow-primary/20">
                   {step.number}
                 </div>
                 <h3 className="text-base font-semibold text-foreground">{step.title}</h3>
-                <p className="mt-1.5 text-sm text-muted">{step.description}</p>
               </div>
             ))}
           </div>
@@ -103,7 +100,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Everything You Need</h2>
             <p className="mt-3 text-lg text-muted">Powerful tools to help you stand out</p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
               <div
                 key={feature.title}
