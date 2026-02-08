@@ -31,8 +31,6 @@ export async function POST(req: NextRequest) {
         aboutInfo: "",
         jobDescription: "",
         notes: "",
-        matchScore: Math.floor(Math.random() * 20) + 70,
-        matchReasoning: "Match score will be personalized after pitch generation.",
         hiringNow: true,
         location: "On-site",
         topRoles: ["General"],

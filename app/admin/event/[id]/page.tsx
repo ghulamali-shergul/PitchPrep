@@ -26,6 +26,7 @@ export default function AdminEventDetailPage({ params }: { params: Promise<{ id:
     removeCompanyFromEvent,
     addCompanyToEvent,
     bulkAddCareerFairCompanies,
+    refreshCompanies,
     getEventCompanies,
     getEventById,
   } = useCompanyStore();
@@ -122,7 +123,7 @@ export default function AdminEventDetailPage({ params }: { params: Promise<{ id:
     setShowAddModal(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formName.trim()) return;
 
     const slug = formName
@@ -146,26 +147,43 @@ export default function AdminEventDetailPage({ params }: { params: Promise<{ id:
         topRoles: roles.length > 0 ? roles : ["General"],
       });
     } else {
-      const newCompany: Company = {
-        id: String(Date.now()),
-        slug,
-        name: formName.trim(),
-        url: formUrl.trim() || `https://${slug}.com`,
-        category: formCategory,
-        aboutInfo: formAbout.trim(),
-        jobDescription: "",
-        notes: "",
-        matchScore: Math.floor(Math.random() * 20) + 70,
-        matchReasoning: "Admin-added company. Match score will be personalized for each student.",
-        hiringNow: formHiring,
-        location: formLocation.trim() || "Remote",
-        topRoles: roles.length > 0 ? roles : ["General"],
-        generated: false,
-        adminApproved: true,
-      };
-      addCareerFairCompany(newCompany);
-      // Also add to this event
-      addCompanyToEvent(eventId, newCompany.id);
+      // Use the bulk API to create a single company so IDs are consistent
+      try {
+        const result = await fetch("/api/companies/bulk", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("pitchprep_token")}`,
+          },
+          body: JSON.stringify({ names: [formName.trim()], eventId }),
+        });
+        const data = await result.json();
+
+        if (result.ok && data.companies?.length) {
+          // Update the company with extra details
+          const newId = data.companies[0].id;
+          await fetch(`/api/companies/${newId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("pitchprep_token")}`,
+            },
+            body: JSON.stringify({
+              url: formUrl.trim() || `https://${slug}.com`,
+              category: formCategory,
+              aboutInfo: formAbout.trim(),
+              location: formLocation.trim() || "Remote",
+              hiringNow: formHiring,
+              topRoles: roles.length > 0 ? roles : ["General"],
+            }),
+          });
+          await refreshCompanies();
+          window.location.reload();
+        }
+      } catch (error) {
+        console.error("Add company error:", error);
+        alert("An error occurred while adding the company.");
+      }
     }
 
     setShowAddModal(false);
@@ -173,37 +191,42 @@ export default function AdminEventDetailPage({ params }: { params: Promise<{ id:
     resetForm();
   };
 
-  const handleBulkAdd = () => {
+  const handleBulkAdd = async () => {
     const names = bulkText
       .split(/[,\n]/)
       .map((n) => n.trim())
       .filter(Boolean);
-    const newCompanies: Company[] = names.map((name, i) => {
-      const slug = name
-        .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^a-z0-9-]/g, "");
-      return {
-        id: String(Date.now() + i),
-        slug,
-        name,
-        url: `https://${slug}.com`,
-        category: "Other" as Category,
-        aboutInfo: "",
-        jobDescription: "",
-        notes: "",
-        matchScore: Math.floor(Math.random() * 20) + 70,
-        matchReasoning: "Admin-added company. Match score will be personalized for each student.",
-        hiringNow: true,
-        location: "On-site",
-        topRoles: ["General"],
-        generated: false,
-        adminApproved: true,
-      };
-    });
-    bulkAddCareerFairCompanies(newCompanies);
-    // Add all to this event
-    newCompanies.forEach((c) => addCompanyToEvent(eventId, c.id));
+    if (names.length === 0) return;
+
+    try {
+      // Save to MongoDB via API — the API generates proper IDs and links to event
+      const result = await fetch("/api/companies/bulk", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("pitchprep_token")}`,
+        },
+        body: JSON.stringify({ names, eventId }),
+      });
+      const data = await result.json();
+
+      if (result.ok && data.companies) {
+        // Refresh from database so local state matches MongoDB
+        await refreshCompanies();
+        // Refresh events to get updated companyIds
+        const eventsRes = await fetch("/api/events").then((r) => r.json()).catch(() => null);
+        if (eventsRes?.events) {
+          // Force page reload to get fresh event data
+          window.location.reload();
+        }
+      } else {
+        alert(`Failed to add companies: ${data.error || "Unknown error"}`);
+      }
+    } catch (error) {
+      console.error("Bulk add error:", error);
+      alert("An error occurred while adding companies.");
+    }
+
     setBulkText("");
     setShowBulkModal(false);
   };

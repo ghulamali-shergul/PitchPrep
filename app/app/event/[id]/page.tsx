@@ -18,6 +18,8 @@ export default function UserEventDetailPage({ params }: { params: Promise<{ id: 
   const [isClearing, setIsClearing] = useState(false);
   const [isGeneratingAll, setIsGeneratingAll] = useState(false);
   const [generationStatus, setGenerationStatus] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -61,6 +63,13 @@ export default function UserEventDetailPage({ params }: { params: Promise<{ id: 
     if (!b.matchScore) return -1; // b goes to end
     return b.matchScore - a.matchScore; // normal descending sort
   });
+
+  // Pagination
+  const totalPages = Math.ceil(sortedCompanies.length / ITEMS_PER_PAGE);
+  const paginatedCompanies = sortedCompanies.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   const handleClearAll = async () => {
     if (!confirm("Are you sure you want to clear all AI-generated match data? This cannot be undone.")) {
@@ -224,7 +233,7 @@ export default function UserEventDetailPage({ params }: { params: Promise<{ id: 
                   </td>
                 </tr>
               ) : (
-                sortedCompanies.map((company) => (
+                paginatedCompanies.map((company) => (
                   <tr
                     key={company.id}
                     className="border-b border-border last:border-0 hover:bg-card-hover transition-colors cursor-pointer"
@@ -282,6 +291,59 @@ export default function UserEventDetailPage({ params }: { params: Promise<{ id: 
           </table>
         </div>
       </Card>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between mt-4">
+          <p className="text-sm text-muted">
+            Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, sortedCompanies.length)} of {sortedCompanies.length} companies
+          </p>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(1)}
+              disabled={currentPage === 1}
+            >
+              ««
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+            >
+              ‹ Prev
+            </Button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <Button
+                key={page}
+                variant={page === currentPage ? "primary" : "outline"}
+                size="sm"
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </Button>
+            ))}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+            >
+              Next ›
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(totalPages)}
+              disabled={currentPage === totalPages}
+            >
+              »»
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* About section removed per request */}
     </Container>
