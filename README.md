@@ -6,6 +6,14 @@
 
 🌐 **Live Demo:** [https://pitch-prep.vercel.app/](https://pitch-prep.vercel.app/)
 
+**Admin credentials**
+username: admin@pitchprep.com
+password: admin123
+
+**User Credentials**
+username: user@gmail.com
+password: 12345
+
 ---
 
 ## Demo Video
