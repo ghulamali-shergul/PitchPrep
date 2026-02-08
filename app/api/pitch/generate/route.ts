@@ -69,6 +69,8 @@ export async function POST(req: NextRequest) {
     const { fetchEmployerContext } = await import("@/lib/services/openai");
     const employerContext = await fetchEmployerContext(companyName);
     console.log(`✅ Employer context fetched:`, employerContext);
+    console.log(`-------------------------------------------`);
+    console.log(`userProfile.resumeText:`, userProfile.resumeText);
 
     // 3. Generate the pitch using consolidated prompt with employer context
     const pitchResult = await generatePitch(userProfile, companyName, employerContext);

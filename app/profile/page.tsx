@@ -54,10 +54,52 @@ export default function ProfilePage() {
     uploading: boolean;
     error: string | null;
     success: string | null;
-  }>({ uploading: false, error: null, success: null });
+    preview: string | null;
+  }>({ uploading: false, error: null, success: null, preview: null });
   const [newSkill, setNewSkill] = useState("");
   const [newIndustry, setNewIndustry] = useState("");
   const [analyzingResume, setAnalyzingResume] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate client-side
+    const validTypes = [
+      "application/pdf",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+    if (!validTypes.includes(file.type)) {
+      setUploadStatus({ uploading: false, error: "Please upload a PDF or DOCX file.", success: null, preview: null });
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadStatus({ uploading: false, error: "File exceeds 5 MB limit.", success: null, preview: null });
+      return;
+    }
+
+    setUploadStatus({ uploading: true, error: null, success: null, preview: null });
+
+    try {
+      const result = await resumeApi.uploadResume(file);
+      // Update local profile state with the extracted text preview
+      if (result.preview) {
+        setProfile((prev) => ({ ...prev, resumeText: result.preview }));
+      }
+      setUploadStatus({
+        uploading: false,
+        error: null,
+        success: `Uploaded ${file.name} — extracted ${result.textLength.toLocaleString()} characters.`,
+        preview: result.preview?.slice(0, 500) || null,
+      });
+    } catch (err: any) {
+      setUploadStatus({ uploading: false, error: err.message || "Upload failed.", success: null, preview: null });
+    } finally {
+      // Reset input so same file can be re-selected
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
 
   const handleSave = async () => {
     try {
@@ -344,8 +386,42 @@ export default function ProfilePage() {
             </Button>
           </div>
 
+          {/* File upload */}
+          <div className="mb-4">
+            <p className="text-sm text-muted mb-2">
+              Upload a PDF or DOCX resume (max 5 MB) to extract text automatically.
+            </p>
+            <div className="flex items-center gap-3">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                onChange={handleFileUpload}
+                className="text-sm file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-sm file:font-medium file:bg-primary file:text-white hover:file:bg-primary-hover file:cursor-pointer"
+                disabled={uploadStatus.uploading}
+              />
+              {uploadStatus.uploading && (
+                <span className="text-sm text-muted animate-pulse">Uploading…</span>
+              )}
+            </div>
+            {uploadStatus.error && (
+              <p className="mt-2 text-sm text-danger">{uploadStatus.error}</p>
+            )}
+            {uploadStatus.success && (
+              <p className="mt-2 text-sm text-success">{uploadStatus.success}</p>
+            )}
+            {uploadStatus.preview && (
+              <details className="mt-2">
+                <summary className="text-xs text-muted cursor-pointer">Show extracted preview</summary>
+                <pre className="mt-1 text-xs bg-secondary p-2 rounded max-h-32 overflow-auto whitespace-pre-wrap">
+                  {uploadStatus.preview}
+                </pre>
+              </details>
+            )}
+          </div>
+
           <p className="text-sm text-muted mb-3">
-            Paste your resume text below and click &quot;Auto-Fill Profile&quot; to automatically populate your profile fields.
+            Or paste your resume text below and click &quot;Auto-Fill Profile&quot; to automatically populate your profile fields.
           </p>
 
           <Textarea

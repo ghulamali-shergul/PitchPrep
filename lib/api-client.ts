@@ -95,6 +95,8 @@ export interface ResumeUploadResponse {
   message: string;
   textLength: number;
   preview: string;
+  fileName?: string;
+  fileType?: "pdf" | "docx";
 }
 
 export const resumeApi = {
@@ -130,6 +132,10 @@ export const resumeApi = {
       method: "POST",
       body: JSON.stringify({ resumeText, jobDescription }),
     });
+  },
+
+  async parseResume(): Promise<{ success: boolean; message: string; extracted: Record<string, unknown> }> {
+    return apiFetch("/resume/parse", { method: "POST" });
   },
 };
 
