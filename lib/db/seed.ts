@@ -2,6 +2,8 @@
  * Database seed script — run with: npx tsx lib/db/seed.ts
  * Populates MongoDB with the same mock data the frontend uses.
  */
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
 import { MongoClient } from "mongodb";
 import { mockCompanies, mockEvents, defaultProfile, mockResumeSuggestions } from "../mockData";
 import bcrypt from "bcryptjs";
