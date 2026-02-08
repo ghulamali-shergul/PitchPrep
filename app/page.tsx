@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
+import TypewriterHeading from "@/components/domain/TypewriterHeading";
 
 const features = [
   {
@@ -34,16 +35,13 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-light via-white to-blue-50 py-20 sm:py-28">
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary-light via-background to-blue-50 dark:to-slate-800 py-20 sm:py-28">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
               🎯 Career Fair Prep Made Simple
             </div>
-            <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Walk into every booth{" "}
-              <span className="text-primary">with confidence</span>
-            </h1>
+            <TypewriterHeading />
             <p className="mt-6 text-lg text-muted sm:text-xl max-w-2xl mx-auto leading-relaxed">
               Research companies, craft personalized pitches, prioritize your visits, and polish your resume — all in one powerful workspace.
             </p>
@@ -70,7 +68,7 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <Container>
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-foreground sm:text-4xl">How It Works</h2>
@@ -94,7 +92,7 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section id="features" className="py-20 bg-gray-50">
+      <section id="features" className="py-20 bg-secondary">
         <Container>
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Everything You Need</h2>
@@ -104,7 +102,7 @@ export default function Home() {
             {features.map((feature) => (
               <div
                 key={feature.title}
-                className="rounded-2xl border border-border bg-white p-8 shadow-sm transition-all hover:shadow-md hover:border-primary/20"
+                className="rounded-2xl border border-border bg-card p-8 shadow-sm transition-all hover:shadow-md hover:border-primary/20"
               >
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary-light text-2xl">
                   {feature.icon}

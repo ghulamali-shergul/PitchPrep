@@ -27,7 +27,7 @@ export default function CompanyFilters({ filters, onFilterChange }: CompanyFilte
         <select
           value={filters.industry}
           onChange={(e) => onFilterChange({ ...filters, industry: e.target.value as Category | "All" })}
-          className="w-full rounded-lg border border-border bg-white px-2.5 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="w-full rounded-lg border border-border bg-card px-2.5 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
         >
           {categories.map((cat) => (
             <option key={cat} value={cat}>{cat}</option>
@@ -40,7 +40,7 @@ export default function CompanyFilters({ filters, onFilterChange }: CompanyFilte
         <select
           value={filters.location}
           onChange={(e) => onFilterChange({ ...filters, location: e.target.value })}
-          className="w-full rounded-lg border border-border bg-white px-2.5 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="w-full rounded-lg border border-border bg-card px-2.5 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
         >
           {locations.map((loc) => (
             <option key={loc} value={loc}>{loc === "All" ? "All Locations" : loc}</option>

@@ -2,7 +2,7 @@ import Container from "@/components/ui/Container";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border bg-white py-8 mt-auto">
+    <footer className="border-t border-border bg-background py-8 mt-auto">
       <Container>
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex items-center gap-2">

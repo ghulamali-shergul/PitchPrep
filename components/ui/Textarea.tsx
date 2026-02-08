@@ -16,7 +16,7 @@ export default function Textarea({ label, error, className = "", id, ...props }:
       )}
       <textarea
         id={textareaId}
-        className={`w-full rounded-lg border border-border bg-white px-3 py-2 text-sm text-foreground placeholder:text-muted/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:bg-secondary disabled:cursor-not-allowed resize-y min-h-[80px] ${error ? "border-danger" : ""} ${className}`}
+        className={`w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:bg-secondary disabled:cursor-not-allowed resize-y min-h-[80px] ${error ? "border-danger" : ""} ${className}`}
         {...props}
       />
       {error && <p className="mt-1 text-xs text-danger">{error}</p>}

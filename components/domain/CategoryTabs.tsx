@@ -37,7 +37,7 @@ export default function CategoryTabs({ categories, activeCategory, onCategoryCha
           <span>{categoryIcons[cat]}</span>
           {cat}
           <span className={`ml-1 rounded-full px-1.5 py-0.5 text-xs ${
-            activeCategory === cat ? "bg-white/20" : "bg-white"
+            activeCategory === cat ? "bg-white/20" : "bg-card"
           }`}>
             {counts[cat] ?? 0}
           </span>

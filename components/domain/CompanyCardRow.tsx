@@ -18,7 +18,7 @@ export default function CompanyCardRow({ company, isSelected, onClick }: Company
       className={`block w-full text-left rounded-lg border p-3 transition-all ${
         isSelected
           ? "border-primary bg-primary-light shadow-sm"
-          : "border-border bg-white hover:border-primary/30 hover:bg-card-hover hover:shadow-md"
+          : "border-border bg-card hover:border-primary/30 hover:bg-card-hover hover:shadow-md"
       }`}
       onClick={(e) => {
         // Still call onClick for any state management (like selection tracking)

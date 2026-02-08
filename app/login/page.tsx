@@ -72,7 +72,7 @@ export default function LoginPage() {
             onClick={() => handleRoleChange("user")}
             className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
               role === "user"
-                ? "bg-white text-foreground shadow-sm"
+                ? "bg-card text-foreground shadow-sm"
                 : "text-muted hover:text-foreground"
             }`}
           >
@@ -82,7 +82,7 @@ export default function LoginPage() {
             onClick={() => handleRoleChange("admin")}
             className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
               role === "admin"
-                ? "bg-white text-foreground shadow-sm"
+                ? "bg-card text-foreground shadow-sm"
                 : "text-muted hover:text-foreground"
             }`}
           >

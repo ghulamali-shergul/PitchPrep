@@ -36,7 +36,7 @@ export default function Stepper({ steps, currentStep, onStepClick }: StepperProp
                       ? "bg-primary text-white"
                       : isCurrent
                         ? "border-2 border-primary bg-primary-light text-primary"
-                        : "border-2 border-border bg-white text-muted"
+                        : "border-2 border-border bg-card text-muted"
                   }`}
                 >
                   {isCompleted ? (
