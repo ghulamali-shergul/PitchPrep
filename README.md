@@ -216,8 +216,7 @@ lib/
 ---
 
 ## Built By
-
-**Wahid Haidari** — [GitHub](https://github.com/Wahid-Haidari)
-**Ghulam Ali Doulat**
-**Lkhanaajav Mijiddorj**
-**Rajeev Kumar**
+  - **Ghulam Ali Doulat**
+  - **Lkhanaajav Mijiddorj**
+  - **Rajeev Kumar**
+  - **Wahid Haidari** — [GitHub](https://github.com/Wahid-Haidari)
